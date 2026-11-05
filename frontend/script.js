@@ -1,0 +1,1 @@
+console.log("Energy Watch frontend is connected!");

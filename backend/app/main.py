@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException, Request
 from app.database import init_db
 from app import repository
 from app.validation import validate_component_data
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 init_db()  # create the table if it doesn't exist
 
@@ -73,3 +75,9 @@ def delete_component(component_id: int):
     deleted = repository.delete_component(component_id)
     if not deleted:
         raise HTTPException(status_code=404, detail=f"Component {component_id} not found")
+
+
+
+
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+app.mount("/app", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
