@@ -50,3 +50,27 @@ def get_component(component_id: int) -> dict | None:
         connection.close()
 
     return _to_dict(row) if row else None
+
+def update_component(component_id: int, name: str, status: str, component_type: str) -> dict | None:
+    last_updated = now()
+    connection = get_connection()
+    try:
+        cursor = connection.execute(
+            "UPDATE components SET name = ?, status = ?, type = ?, last_updated = ? WHERE id = ?",
+            (name, status, component_type, last_updated, component_id)
+        )
+        connection.commit()
+        rows_updated = cursor.rowcount
+    finally:
+        connection.close()
+    
+    if rows_updated == 0:
+        return None
+
+    return {
+        "id": component_id,
+        "name": name,
+        "status": status,
+        "type": component_type,
+        "lastUpdated": last_updated,
+    }
