@@ -25,3 +25,14 @@ async def create_component(request: Request):
         component_type=data["type"]
     )
     return component
+
+@app.get("/api/components")
+def list_components():
+    return repository.list_components()
+
+@app.get("/api/components/{component_id}")
+def get_component(component_id: int):
+    component = repository.get_component(component_id)
+    if component is None:
+        raise HTTPException(status_code=404, detail=f"Component {component_id} not found")
+    return component
