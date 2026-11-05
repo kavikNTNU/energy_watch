@@ -74,3 +74,14 @@ def update_component(component_id: int, name: str, status: str, component_type: 
         "type": component_type,
         "lastUpdated": last_updated,
     }
+
+def delete_component(component_id: int) -> bool:
+    connection = get_connection()
+    try:
+        cursor = connection.execute(
+            "DELETE FROM components WHERE id = ?", (component_id,))
+        connection.commit()
+        rows_deleted = cursor.rowcount
+    finally:
+        connection.close()
+    return rows_deleted > 0
