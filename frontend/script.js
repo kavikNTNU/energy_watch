@@ -15,9 +15,26 @@ function renderComponents(components) {
     for (const component of components) {
         const item = document.createElement("li");
         item.textContent = `${component.name} (${component.type}) - ${component.status}`;
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Slett";
+        deleteButton.addEventListener("click", () => deleteComponent(component.id));
+        item.appendChild(deleteButton);
         list.appendChild(item);
     }
 }
+
+async function deleteComponent(id) {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+    });
+
+    if (!response.ok) {
+        alert("Failed to delete component. Please try again.");
+        return;
+    }
+    loadComponents();
+}
+
 
 const form = document.getElementById("component-form");
 
