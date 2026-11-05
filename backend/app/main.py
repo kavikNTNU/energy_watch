@@ -14,7 +14,14 @@ def read_root():
 
 @app.post("/api/components", status_code=201)
 async def create_component(request: Request):
-    data = await request.json()
+    try:
+        data = await request.json()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Request body must be valid JSON")
+
+    if not isinstance(data, dict):
+        raise HTTPException(status_code=400, detail="Request body must be a JSON object")
+
     errors = validate_component_data(data)
     if errors:
         raise HTTPException(status_code=400, detail=errors)
