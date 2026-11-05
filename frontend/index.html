@@ -11,7 +11,37 @@
         <h1>Energy Watch</h1>
         <p>Oversikt over energikomponenter</p>
 
-        <ul id="component_list"></ul>
+        <h2>Ny komponent</h2>
+            <form id="component-form">
+            <label>
+                Navn
+                <input type="text" name="name" required maxlength="100">
+            </label>
+
+            <label>
+                Status
+                <select name="status">
+                <option value="active">Aktiv</option>
+                <option value="inactive">Inaktiv</option>
+                <option value="maintenance">Vedlikehold</option>
+                </select>
+            </label>
+
+            <label>
+                Type
+                <select name="type">
+                <option value="meter">Måler</option>
+                <option value="battery">Batteri</option>
+                <option value="charging_station">Ladestasjon</option>
+                <option value="transformator">Transformator</option>
+                </select>
+            </label>
+
+            <button type="submit">Legg til</button>
+            </form>
+
+        <h2>Komponenter</h2>
+            <ul id="component_list"></ul>
     </main>
     <script src="script.js"></script>
 </body>
