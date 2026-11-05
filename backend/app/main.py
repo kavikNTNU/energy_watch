@@ -67,3 +67,9 @@ async def update_component(component_id: int, request: Request):
     if component is None:
         raise HTTPException(status_code=404, detail=f"Component {component_id} not found")
     return component
+
+@app.delete("/api/components/{component_id}", status_code=204)
+def delete_component(component_id: int):
+    deleted = repository.delete_component(component_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail=f"Component {component_id} not found")
