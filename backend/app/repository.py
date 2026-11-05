@@ -23,3 +23,30 @@ def create_component(name: str, status: str, component_type: str) -> dict:
         "type": component_type,
         "lastUpdated": last_updated,
     }
+
+def _to_dict(row) -> dict:
+    return {
+        "id": row["id"],
+        "name": row["name"],
+        "status": row["status"],
+        "type": row["type"],
+        "lastUpdated": row["last_updated"],
+    }
+
+def list_components() -> list:
+    connection = get_connection()
+    try:
+        rows = connection.execute("SELECT * FROM components").fetchall()
+    finally:
+        connection.close()
+
+    return [_to_dict(row) for row in rows]
+
+def get_component(component_id: int) -> dict | None:
+    connection = get_connection()
+    try:
+        row = connection.execute("SELECT * FROM components WHERE id = ?", (component_id,)).fetchone()
+    finally:
+        connection.close()
+
+    return _to_dict(row) if row else None
