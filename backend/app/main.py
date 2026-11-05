@@ -13,8 +13,8 @@ def read_root():
     return {"message": "Energy Watch API is running"}
 
 @app.post("/api/components", status_code=201)
-def create_component(request: Request):
-    data = request.json()
+async def create_component(request: Request):
+    data = await request.json()
     errors = validate_component_data(data)
     if errors:
         raise HTTPException(status_code=400, detail=errors)
