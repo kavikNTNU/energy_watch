@@ -43,3 +43,27 @@ def get_component(component_id: int):
     if component is None:
         raise HTTPException(status_code=404, detail=f"Component {component_id} not found")
     return component
+
+@app.put("/api/components/{component_id}")
+async def update_component(component_id: int, request: Request):
+    try:
+        data = await request.json()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Request body must be valid JSON")
+
+    if not isinstance(data, dict):
+        raise HTTPException(status_code=400, detail="Request body must be a JSON object")
+
+    errors = validate_component_data(data)
+    if errors:
+        raise HTTPException(status_code=400, detail=errors)
+
+    component = repository.update_component(
+        component_id=component_id,
+        name=data["name"],
+        status=data["status"],
+        component_type=data["type"]
+    )
+    if component is None:
+        raise HTTPException(status_code=404, detail=f"Component {component_id} not found")
+    return component
