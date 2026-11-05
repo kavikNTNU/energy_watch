@@ -7,8 +7,8 @@ def validate_component_data(data):
 
     # Validate name
     name = data.get("name")
-    if not name or len(name) > MAX_NAME_LENGTH:
-        errors.append(f"Name must be provided and cannot exceed {MAX_NAME_LENGTH} characters.")
+    if not name or len(name) > MAX_NAME_LENGTH or not name.strip():
+        errors.append(f"Name must be provided (only whitespaces is not allowed) and cannot exceed {MAX_NAME_LENGTH} characters.")
 
     # Validate status
     status = data.get("status")
