@@ -49,6 +49,14 @@ Jeg valgte å implementere backend og frontend funksjonalitet. Testing kun oppre
 - Frontend: http://localhost:8000/app
 - Api-test: ```bash python -m pytest```
 
+6. Test API-et (forutsetter at serveren kjører, bytt X med en int id som finnes) via Powershell:
+- Hent alle: Invoke-RestMethod http://127.0.0.1:8000/api/components
+- Hent én: Invoke-RestMethod -Method Get -Uri http://127.0.0.1:8000/api/components/X
+- Opprett: Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/api/components -ContentType "application/json" -Body '{"name": "Something ...", "status": "active", "type": "transformator"}'
+- Oppdater: Invoke-RestMethod -Method Put -Uri http://127.0.0.1:8000/api/components/X -ContentType "application/json" -Body '{"name": "Something ...", "status": "maintenance", "type": "battery"}'
+- Slett: Invoke-RestMethod -Method Delete -Uri http://127.0.0.1:8000/api/components/X
+
+
 ## Teknologivalg
 - Backend: Python og FastAPI for lite oppsett og innebygd API-dokumentasjon
 - Database: Sqlite
